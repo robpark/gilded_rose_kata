@@ -77,22 +77,23 @@ describe "#update_quality" do
 
     context "Sulfuras" do
       Given(:initial_quality) { 80 }
+      Given(:max_quality) { 50 }
       Given(:name) { "Sulfuras, Hand of Ragnaros" }
 
       Invariant { item.sell_in.should == initial_sell_in }
 
       context "before sell date" do
-        Then { item.quality.should == initial_quality }
+        Then { item.quality.should == max_quality }
       end
 
       context "on sell date" do
         Given(:initial_sell_in) { 0 }
-        Then { item.quality.should == initial_quality }
+        Then { item.quality.should == max_quality }
       end
 
       context "after sell date" do
         Given(:initial_sell_in) { -10 }
-        Then { item.quality.should == initial_quality }
+        Then { item.quality.should == max_quality }
       end
     end
 
@@ -162,7 +163,6 @@ describe "#update_quality" do
     end
 
     context "conjured item" do
-      before { pending }
       Given(:name) { "Conjured Mana Cake" }
 
       Invariant { item.sell_in.should == initial_sell_in-1 }
@@ -202,8 +202,8 @@ describe "#update_quality" do
   context "with several objects" do
     Given(:items) {
       [
-        Item.new("NORMAL ITEM", 5, 10),
-        Item.new("Aged Brie", 3, 10),
+          Item.new("NORMAL ITEM", 5, 10),
+          Item.new("Aged Brie", 3, 10),
       ]
     }
 
